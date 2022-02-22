@@ -1,0 +1,136 @@
+import random
+inp = input("Do you want to play a game of Black jack? Type 'Yes' or 'No' :").lower()
+from art import logo
+print(logo)
+
+isTrue = False
+while not isTrue:
+  if inp == "yes":
+    cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+    ukc = []
+    def uc():
+      uc1 = random.choice(cards)
+      ukc.append(uc1)
+    
+    ckc = []
+    def cc():
+      cc1 = random.choice(cards)
+      ckc.append(cc1)
+
+  # ------------------------------------------------------------------------------------
+    def start_time():
+      uc()
+      uc()
+      cc()
+
+    def again_try():
+      uc()
+      cc()
+    
+    def when_n():
+      cc()
+    
+    total_ukc = sum(ukc)
+    total_ckc = sum(ckc)
+
+    def output():
+      print(f"Your Cards: {ukc}, User Score: {sum(ukc)}")
+      print(f"Computer Cards: {ckc}")
+    
+    def start():
+      start_time()
+      output()
+    
+    def check():
+      if sum(ukc) == sum(ckc):
+            print("It's a Draw")
+            
+      elif sum(ukc) == 21:
+        print("User Wins as it has value equal to 21")
+        islol = True
+        isTrue = True
+    
+      elif sum(ckc) == 21:
+        print("Computer Wins as it has value equal to 21")
+        islol = True
+        isTrue = True
+      
+      elif sum(ukc) > 21 and sum(ckc) > 21:
+        print("Both have value greater tham 21.")
+        print("--------------------------------------------------")
+      
+      elif sum(ukc) > 21 and sum(ckc) < 21:
+        print("User score is greater than 21. Hence Computer Wins")
+        islol = True
+        isTrue = True
+        
+      elif sum(ukc) < 21 and sum(ckc) > 21:
+        print("Computer score is greater than 21. Hence User Wins")
+        islol = True
+        isTrue = True
+      elif sum(ukc) > sum(ckc):
+        print("User Wins as it has more value")
+        islol = True
+        isTrue = True
+      elif sum(ckc) > sum(ukc):
+        print("Computer Wins as it has more value")
+        islol = True
+        isTrue = True
+      
+    def check1():
+      if sum(ukc) == sum(ckc):
+            print("It's a Draw")
+            
+      elif sum(ukc) == 21:
+        print("User Wins as it has value equal to 21")
+        islol = True
+        isTrue = True
+    
+      elif sum(ckc) == 21:
+        print("Computer Wins as it has value equal to 21")
+        islol = True
+        isTrue = True
+      
+      elif sum(ukc) > 21 and sum(ckc) > 21:
+        print("Both have value greater tham 21.")
+        print("--------------------------------------------------")
+      
+      elif sum(ukc) > 21 and sum(ckc) < 21:
+        print("User score is greater than 21. Hence Computer Wins")
+        islol = True
+        isTrue = True
+        
+      elif sum(ukc) < 21 and sum(ckc) > 21:
+        print("Computer score is greater than 21. Hence User Wins")
+        islol = True
+        isTrue = True
+
+
+    #----------------------------------------------------------------------------------
+  
+
+    start()
+    islol = False
+     # anoher chance for selecting cards
+    while not islol:
+      ac = input("Type 'Y' to get another card. Type 'N' to pass: ").lower()
+      check1()
+
+      if ac == "y" and sum(ukc) < 21 and sum(ckc) < 21:
+        again_try()
+        output()
+        check1()
+        
+      elif ac == "n" and sum(ukc) < 21 and sum(ckc) < 21:
+        when_n()
+        output()
+        print(f"Computer Score: {sum(ckc)}")
+        check()
+        islol = True
+        isTrue = True
+
+        
+  else:
+    isTrue = True
+    print("Thank you for playing the Game")
