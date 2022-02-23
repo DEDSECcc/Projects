@@ -1,0 +1,62 @@
+art.py
+
+logo = '''
+   ▄     ▄   █▀▄▀█ ███   ▄███▄   █▄▄▄▄       ▄▀    ▄   ▄███▄     ▄▄▄▄▄    ▄▄▄▄▄   ▄█    ▄     ▄▀        ▄▀  ██   █▀▄▀█ ▄███▄   
+    █     █  █ █ █ █  █  █▀   ▀  █  ▄▀     ▄▀       █  █▀   ▀   █     ▀▄ █     ▀▄ ██     █  ▄▀        ▄▀    █ █  █ █ █ █▀   ▀  
+██   █ █   █ █ ▄ █ █ ▀ ▄ ██▄▄    █▀▀▌      █ ▀▄  █   █ ██▄▄   ▄  ▀▀▀▀▄ ▄  ▀▀▀▀▄   ██ ██   █ █ ▀▄      █ ▀▄  █▄▄█ █ ▄ █ ██▄▄    
+█ █  █ █   █ █   █ █  ▄▀ █▄   ▄▀ █  █      █   █ █   █ █▄   ▄▀ ▀▄▄▄▄▀   ▀▄▄▄▄▀    ▐█ █ █  █ █   █     █   █ █  █ █   █ █▄   ▄▀ 
+█  █ █ █▄ ▄█    █  ███   ▀███▀     █        ███  █▄ ▄█ ▀███▀                       ▐ █  █ █  ███       ███     █    █  ▀███▀   
+█   ██  ▀▀▀    ▀                  ▀               ▀▀▀                                █   ██                   █    ▀           
+                                                                                                             ▀                 
+'''
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+import random
+from art import logo
+print (logo)
+
+ran = random.randint(0, 101)
+chance_h = 5
+chance_e = 10
+
+def lost_e():
+  if turns == 0:
+        print("You Lost")
+
+def lost_h():
+  if turns == 0:
+        print("You Lost")
+
+
+def gg():
+  global turns
+  while turns > 0:
+    Guess = int(input("Make a Guess: "))
+    if Guess == ran:
+      print(f"You got it. The answer is {Guess}")
+      turns = 0
+    elif Guess > ran:
+      print("Too High")
+      turns -= 1
+      print(f"You have {turns} attempts left.")
+      lost_h()
+    elif Guess < ran:
+      print("Too Low")
+      turns -= 1
+      print(f"You have {turns} attempts left.")
+      lost_h()
+      
+
+def difficulty():
+  if diff == "easy":
+    return chance_e
+  elif diff == "hard":
+    return chance_h
+  
+
+print("Welcome to the Number Guessing Game")
+print("Think of a Number between 1 to 100")
+diff = input("Choose a Difficulty. Type 'Easy' or 'Hard': ").lower()
+turns = difficulty()
+print(f"You have {turns} attempts to guess the Game")
+gg()
