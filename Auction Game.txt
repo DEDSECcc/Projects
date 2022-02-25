@@ -1,0 +1,47 @@
+from replit import clear
+#HINT: You can call clear() to clear the output in the console.
+from art import logo
+print(logo)
+
+istrue = False
+dnary = {}
+value = 0
+logo = '''
+                         ___________
+                         \         /
+                          )_______(
+                          |"""""""|_.-._,.---------.,_.-._
+                          |       | | |               | | ''-.
+                          |       |_| |_             _| |_..-'
+                          |_______| '-' `'---------'` '-'
+                          )"""""""(
+                         /_________\\
+                       .-------------.
+                      /_______________\\
+'''
+-----------------------------------------------------------------------------------------------------------------------------------------
+def hb(bidder_amount):
+  hv = 0
+  nominee = ""
+
+  for all in bidder_amount:
+    value = int(bidder_amount[all])
+    if value > hv:
+      hv = value
+      nominee = all
+
+  print(f"The highest Bidder is {nominee} with a amount of ${hv}")
+
+
+istrue = False
+while(not istrue):
+  
+  name = input("What is you name? ")
+  bid = input("What is your bid? ")
+  dnary[name]= bid
+  again = input("Are there any other bidders? Type 'Yes' or 'No' ").lower()
+  if again == "Yes":
+    clear()
+  elif again == "no":
+    istrue = True
+    hb(dnary)
