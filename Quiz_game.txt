@@ -1,0 +1,101 @@
+
+question_data = [
+    {"category": "Science: Computers",
+     "type": "boolean",
+     "difficulty": "easy",
+     "question": "Linus Torvalds created Linux and Git.",
+     "correct_answer": "True"},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+     "question": "The programming language &quot;Python&quot; is based off a modified version of &quot;JavaScript&quot;.",
+     "correct_answer": "False", "incorrect_answers": ["True"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+     "question": "The logo for Snapchat is a Bell.", "correct_answer": "False", "incorrect_answers": ["True"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+     "question": "Pointers were not used in the original C programming language; they were added later on in C++.",
+     "correct_answer": "False", "incorrect_answers": ["True"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+     "question": "Ada Lovelace is often considered the first computer programmer.", "correct_answer": "True",
+     "incorrect_answers": ["False"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+                                       "question": "&quot;HTML&quot; stands for Hypertext Markup Language.",
+                                       "correct_answer": "True", "incorrect_answers": ["False"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+     "question": "In most programming languages, the operator ++ is equivalent to the statement &quot;+= 1&quot;.",
+     "correct_answer": "True", "incorrect_answers": ["False"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+     "question": "The Windows ME operating system was released in the year 2000.", "correct_answer": "True",
+     "incorrect_answers": ["False"]},
+    {"category": "Science: Computers", "type": "boolean", "difficulty": "easy",
+                                       "question": "The NVidia GTX 1080 gets its name because it can only render at a 1920x1080 screen resolution.",
+                                       "correct_answer": "False", "incorrect_answers": ["True"]},
+    {"category": "Science: Computers",
+     "type": "boolean",
+     "difficulty": "easy",
+     "question": "The Python programming language gets its name from the British comedy group &quot;Monty Python.&quot;",
+     "correct_answer": "True",
+     "incorrect_answers": ["False"]
+     }
+]
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class Question:
+    def __init__(self, q, ans):
+        self.question = q
+        self.answer = ans
+
+------------------------------------------
+
+
+class QuizBrain:
+    def __init__(self, lis):
+        self.question_number = 0
+        self.question_list = lis
+        self.score = 0
+
+    def still_has_questions(self):
+        return self.question_number < len(self.question_list)
+
+    def next_question(self):
+        quest = self.question_list[self.question_number].question
+        ask = input(f"Q.{self.question_number+1}: {quest}(True/False): ").title()
+        self.check_answer(ask)
+        print(f"Your Current Score is: {self.score}/{self.question_number}")
+        self.question_number += 1
+
+    def check_answer(self, ask):
+        answer = self.question_list[self.question_number].answer
+        if answer == ask:
+            print("You got it right")
+            print(f"The Correct answer was: {answer}")
+            self.score += 1
+        else:
+            print("That's Wrong")
+            print(f"The Correct answer was: {answer}")
+
+
+
+--------------------------------------------------------------------------------------------------------
+
+from data import question_data
+from question_model import Question
+from quiz_brain import QuizBrain
+
+question_bank = []
+
+for i in question_data:
+    ques = i['question']
+    an = i['correct_answer']
+    ques = Question(ques, an)
+    question_bank.append(ques)
+print(question_bank[0].answer)
+
+quiz = QuizBrain(question_bank)
+
+while quiz.still_has_questions():
+    quiz.next_question()
+    print("")
+
+print("You have completed the Quiz")
+print(f"Your final Score is {quiz.score}/{len(question_bank)}")
+
