@@ -1,0 +1,30 @@
+from turtle import Turtle, Screen
+import random
+
+scr = Screen()
+all_turtles= []
+colours = ["violet", "blue", "green", "yellow", "orange", "red"]
+positions = [-80, -40, 0, 40, 80, 120]
+inp = scr.textinput(title="Place Your Bet", prompt="Name the color of the turtle on which you want to Bet: ")
+scr.setup(width=500, height=400)
+
+for i in range(0, 6):
+    new_turtles = Turtle(shape= "turtle")
+    new_turtles.color(colours[i])
+    new_turtles.penup()
+    new_turtles.goto(x=-230, y=positions[i])
+    all_turtles.append(new_turtles)
+
+isTrue = False
+while not isTrue:
+    for individual_turtles in all_turtles:
+        individual_turtles.forward(random.randint(0, 10))
+        if individual_turtles.xcor() > 220:
+            winner = individual_turtles.pencolor()
+            isTrue = True
+            if winner == inp:
+                print(f"Wow, You have Won. The {winner} turtle is the Winner")
+            else:
+                print(f"Sorry, You have Lost. The {winner} turtle is the Winner")
+
+scr.exitonclick()
