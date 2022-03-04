@@ -1,0 +1,166 @@
+----------------------------------------------------------------------
+                              food.py
+----------------------------------------------------------------------
+
+from turtle import Turtle
+import random
+
+
+class Food(Turtle):
+    def __init__(self):
+        super().__init__()
+        self.shape('circle')
+        self.shapesize(stretch_wid=0.5, stretch_len=0.5)
+        self.color('red')
+        self.penup()
+        self.refresh()
+
+    def refresh(self):
+        r_x = random.randint(-250, 280)
+        r_y = random.randint(-280, 250)
+        self.goto(r_x, r_y)
+
+---------------------------------------------------------------------
+                           scoreboard.py
+---------------------------------------------------------------------
+
+from turtle import Turtle
+POSITION = "center"
+FONT = ("calibri", 15, 'normal')
+
+
+class Scoreboard(Turtle):
+
+    def __init__(self):
+        super().__init__()
+        self.score = 0
+        self.color("white")
+        self.penup()
+        self.goto(0, 280)
+        self.hideturtle()
+        self.scr_score()
+
+    def scr_score(self):
+        self.write(f"Score: {self.score}", align=POSITION, font=FONT)
+
+    def increase_score(self):
+        self.score += 1
+        self.clear()
+        self.scr_score()
+
+    def go(self):
+        self.color("white")
+        self.penup()
+        self.goto(0, 0)
+        self.hideturtle()
+        self.write("GAME OVER", align=POSITION, font=FONT)
+
+
+---------------------------------------------------------------------------------------------
+                                         snake.py
+---------------------------------------------------------------------------------------------
+
+from turtle import Turtle
+TURTLES = [(0, 0), (-20, 0), (-40, 0)]
+FORWARD = 20.0
+UP = 90
+DOWN = 270
+LEFT = 180
+RIGHT = 0
+
+
+class Snake:
+
+    def __init__(self):
+        self.turtl = []
+        self.graphics()
+        self.head = self.turtl[0]
+
+    def graphics(self):
+        for inp in TURTLES:
+            self.ind_snakes(inp)
+
+    def ind_snakes(self, pos):
+        tu = Turtle("square")
+        tu.color('white')
+        tu.penup()
+        tu.goto(pos)
+        self.turtl.append(tu)
+
+    def extend(self):
+        self.ind_snakes(self.turtl[-1].position())
+
+    def move(self):
+        for w in range(len(self.turtl)-1, 0, -1):
+            new_x = self.turtl[w - 1].xcor()
+            new_y = self.turtl[w - 1].ycor()
+            self.turtl[w].goto(new_x, new_y)
+        self.head.forward(FORWARD)
+
+    def up_func(self):
+        if self.head.heading() != DOWN:
+            self.head.setheading(UP)
+
+    def down_func(self):
+        if self.head.heading() != UP:
+            self.head.setheading(DOWN)
+
+    def right_func(self):
+        if self.head.heading() != LEFT:
+            self.head.setheading(RIGHT)
+
+    def left_func(self):
+        if self.head.heading() != RIGHT:
+            self.head.setheading(LEFT)
+
+
+
+--------------------------------------------------------------------
+                            main.py
+--------------------------------------------------------------------
+
+from turtle import Turtle, Screen
+from snake import Snake
+import time
+from food import Food
+from scoreboard import Scoreboard
+
+scr = Screen()
+food = Food()
+snakes = Snake()
+scores = Scoreboard()
+scr.bgcolor("black")
+scr.setup(width=600, height=600)
+scr.title("Snake Game")
+scr.tracer(0)
+
+isTrue = False
+while not isTrue:
+    scr.update()
+    time.sleep(0.1)
+    snakes.move()
+
+    scr.listen()
+    scr.onkey(fun=snakes.up_func, key="Up")
+    scr.onkey(fun=snakes.down_func, key="Down")
+    scr.onkey(fun=snakes.right_func, key="Right")
+    scr.onkey(fun=snakes.left_func, key="Left")
+
+    if snakes.head.distance(food) < 15:
+        food.refresh()
+        snakes.extend()
+        scores.increase_score()
+
+    if snakes.head.xcor() > 280 or snakes.head.xcor() < -280 or snakes.head.ycor() > 280 or snakes.head.ycor() < -280:
+        isTrue = True
+        scores.go()
+
+    for lis in snakes.turtl[1:]:
+        if snakes.head.distance(lis) < 15:
+            isTrue = True
+            scores.go()
+
+
+scr.exitonclick()
+
+
