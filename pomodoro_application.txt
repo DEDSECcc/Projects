@@ -1,0 +1,99 @@
+tomato.png
+
+#------------------------------------------------------------------------#
+
+import math
+from tkinter import *
+# ---------------------------- CONSTANTS ------------------------------- #
+PINK = "#e2979c"
+RED = "#e7305b"
+GREEN = "#9bdeac"
+YELLOW = "#f7f5dd"
+FONT_NAME = "Courier"
+WORK_MIN = 25
+SHORT_BREAK_MIN = 5
+LONG_BREAK_MIN = 20
+reps = 0
+item = ""
+# ---------------------------- TIMER RESET ------------------------------- #
+
+# ---------------------------- TIMER MECHANISM ------------------------------- #
+
+
+def start():
+    global reps
+    reps += 1
+    work = WORK_MIN * 60
+    s_break = SHORT_BREAK_MIN * 60
+    l_break = LONG_BREAK_MIN * 60
+
+    if reps % 8 == 0:
+        count_down(l_break)
+        my_timer.config(text="LONG BREAK", fg=PINK)
+    elif reps % 2 == 0:
+        count_down(s_break)
+        my_timer.config(text="BREAK", fg=RED)
+    else:
+        count_down(work)
+        my_timer.config(text="WORK", fg="blue")
+
+
+def reset():
+    global reps
+    canvas.after_cancel(item)
+    my_timer.config(text="Timer")
+    my_check.config(text="")
+    canvas.itemconfig(text_tu, text=f"{0}{0}:{0}{0}")
+    reps = 0
+
+# ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
+
+
+def count_down(count):
+    global item
+    global reps
+    global row_n
+    count_m = math.floor(count/60)
+    count_s = count % 60
+    if count_s < 10 or count_s == 0:
+        count_s = f"0{count_s}"
+
+    canvas.itemconfig(text_tu, text=f"{count_m}:{count_s}")
+    if count > 0:
+        item = canvas.after(1000, count_down, count-1)
+    else:
+        start()
+        mark = ""
+        for i in range(math.floor(reps/2)):
+            mark += "✔"
+            my_check.config(text=mark)
+
+# ---------------------------- UI SETUP----------------------------------------
+
+
+window = Tk()
+window.title("Pomodoro Game")
+window.config(padx=50, pady=50, bg=YELLOW)
+
+canvas = Canvas(width=220, height=220, bg=YELLOW, highlightthickness=0)
+img = PhotoImage(file="tomato.png")
+canvas.create_image(110, 100, image=img)
+text_tu = canvas.create_text(115, 117, text="00:00", fill="black", font=(FONT_NAME, 30, "bold"))
+canvas.grid(column=1, row=1)
+
+
+my_timer = Label(text="TIMER", font=(FONT_NAME, 28), fg=GREEN)
+my_timer.grid(column=1, row=0)
+
+my_start = Button(text="Start", font=FONT_NAME, highlightthickness=0, command=start)
+my_start.grid(column=0, row=2)
+
+my_reset = Button(text="Reset", font=FONT_NAME, highlightthickness=0, command=reset)
+my_reset.grid(column=2, row=2)
+
+my_check = Label(font=FONT_NAME, fg=PINK)
+my_check.grid(column=1, row=3)
+
+
+
+window.mainloop()
